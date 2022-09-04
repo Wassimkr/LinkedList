@@ -10,6 +10,18 @@ Class {
 
 { #category : #adding }
 BasicLinkedList >> add: aNode [
+	^ self addLast: aNode
+]
+
+{ #category : #adding }
+BasicLinkedList >> add: aNode after: aSelectedNode [
+	| node |
+	node := self linkAt: (self indexOf: aSelectedNode).
+	^ self add: aNode after: node
+]
+
+{ #category : #adding }
+BasicLinkedList >> addLast: aNode [
 	tail ifNotNil: [ tail nextLink: aNode ].
 	head ifNil: [ head := aNode ].
 	tail := aNode.
@@ -39,4 +51,15 @@ BasicLinkedList >> first [
 { #category : #adding }
 BasicLinkedList >> last [ 
 	^ tail value
+]
+
+{ #category : #adding }
+BasicLinkedList >> removeLast [ 
+	^ tail remove
+]
+
+{ #category : #adding }
+BasicLinkedList >> removeLast: aNode [
+	
+	
 ]
