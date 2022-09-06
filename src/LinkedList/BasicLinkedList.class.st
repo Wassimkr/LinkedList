@@ -14,10 +14,46 @@ BasicLinkedList >> add: aNode [
 ]
 
 { #category : #adding }
-BasicLinkedList >> add: aNode after: aSelectedNode [
+BasicLinkedList >> add: aLinkOrObject after: otherLink [
+
+	^ self add: aLinkOrObject afterLink: otherLink
+]
+
+{ #category : #adding }
+BasicLinkedList >> add: aLinkOrObject afterLink: otherLink [
+
+	"Add otherLink  after link in the list. Answer aLink."
+
+	| savedLink aLink |
+	tail == otherLink ifTrue: [^ self addLast: aLinkOrObject].
+	savedLink := otherLink nextLink.
+	aLink := aLinkOrObject asLink.
+	otherLink nextLink: aLink.
+	aLink nextLink:  savedLink.
+	^aLink.
+]
+
+{ #category : #adding }
+BasicLinkedList >> add: aNode beforeLink: otherNode [
+
 	| node |
-	node := self linkAt: (self indexOf: aSelectedNode).
-	^ self add: aNode after: node
+	head == otherNode ifTrue: [ ^ self addFirst: aNode ].
+	node := head.
+	[ node isNil ] whileFalse: [ [ node nextLink == otherNode ] ifTrue: [ 
+												aNode nextLink: node nextLink.
+												node nextLink: aNode.
+												^ aNode
+										  ] 
+										]
+]
+
+{ #category : #adding }
+BasicLinkedList >> addFirst: aNode [
+
+	head ifNil: [ head := aNode ].
+	aNode nextLink: head.
+	head := aNode.
+	^ aNode
 ]
 
 { #category : #adding }
@@ -43,23 +79,12 @@ BasicLinkedList >> asArray [
 	^ array
 ]
 
-{ #category : #adding }
-BasicLinkedList >> first [ 
+{ #category : #accessing }
+BasicLinkedList >> first [ 	
 	^ head value
 ]
 
-{ #category : #adding }
-BasicLinkedList >> last [ 
+{ #category : #accessing }
+BasicLinkedList >> last [
 	^ tail value
-]
-
-{ #category : #adding }
-BasicLinkedList >> removeLast [ 
-	^ tail remove
-]
-
-{ #category : #adding }
-BasicLinkedList >> removeLast: aNode [
-	
-	
 ]
