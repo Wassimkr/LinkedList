@@ -86,6 +86,27 @@ BasicLinkedList >> asArray [
 ]
 
 { #category : #accessing }
+BasicLinkedList >> at: index [
+	
+	| i node |
+	i := 1.
+	node := head.
+	
+	index == 1
+		ifTrue: [ ^ head value ]
+		ifFalse: [ 
+				[ i == index ] 
+					whileFalse:  [ 
+							i := i + 1.
+							node := node nextLink.
+						 ].
+				^ node value.
+			 ]
+						
+				
+]
+
+{ #category : #accessing }
 BasicLinkedList >> at: index putLink: aNode [ 
 	
 	| i node listSize|
@@ -165,12 +186,17 @@ BasicLinkedList >> size [
 	
 	node := head.
 	
-	[ node == tail ]
-		whileFalse: [ 
-				index := index + 1.
-				node := node nextLink.
-			 ].
-	^ index
+	head isNil 
+		ifTrue: [ ^ 0 ]
+		ifFalse: [ 
+				[ node == tail ]
+					whileFalse: [ 
+						index := index + 1.
+						node := node nextLink.
+			 		].
+					^ index
+			 	]
+	
 	
 	
 ]
