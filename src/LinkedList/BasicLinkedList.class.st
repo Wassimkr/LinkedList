@@ -14,23 +14,29 @@ BasicLinkedList >> add: aNode [
 ]
 
 { #category : #adding }
-BasicLinkedList >> add: aLinkOrObject after: otherLink [
+BasicLinkedList >> add: aNode after: otherNode [
 
-	^ self add: aLinkOrObject afterLink: otherLink
+	^ self add: aNode afterLink: otherNode
 ]
 
 { #category : #adding }
-BasicLinkedList >> add: aLinkOrObject afterLink: otherLink [
+BasicLinkedList >> add: aNode afterLink: otherNode [
 
 	"Add otherLink  after link in the list. Answer aLink."
 
-	| savedLink aLink |
-	tail == otherLink ifTrue: [^ self addLast: aLinkOrObject].
-	savedLink := otherLink nextLink.
-	aLink := aLinkOrObject asLink.
-	otherLink nextLink: aLink.
-	aLink nextLink:  savedLink.
-	^aLink.
+	| node1 node2 |
+	tail == otherNode ifTrue: [^ self add: aNode].
+	node1 := otherNode nextLink.
+	node2 := aNode asLink.
+	otherNode nextLink: node2.
+	node2 nextLink:  node1.
+	^ node2
+]
+
+{ #category : #adding }
+BasicLinkedList >> add: aNode before: otherNode [
+
+	^ self add: aNode beforeLink: otherNode
 ]
 
 { #category : #adding }
@@ -87,4 +93,38 @@ BasicLinkedList >> first [
 { #category : #accessing }
 BasicLinkedList >> last [
 	^ tail value
+]
+
+{ #category : #removing }
+BasicLinkedList >> removeAll [
+	head := nil.
+	tail := nil
+]
+
+{ #category : #removing }
+BasicLinkedList >> removeFirst [ 
+	
+	| node |
+	node := head.
+	head == tail
+		ifTrue: [ head := nil ]
+		ifFalse: [ head := node nextLink. node := nil ].
+	^ self.
+]
+
+{ #category : #removing }
+BasicLinkedList >> removeLast [ 
+	
+	| node |
+	node := head.
+	head == tail
+		ifTrue: [ head := nil ]
+		ifFalse: [ [ node nextLink == tail ] 
+						whileFalse: [ 
+								node := node nextLink.
+							 ].
+						tail := node.
+						node nextLink: nil
+					].
+	^ self.
 ]
