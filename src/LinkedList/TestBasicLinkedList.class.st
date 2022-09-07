@@ -127,6 +127,28 @@ TestBasicLinkedList >> testAddLastIsOk [
 ]
 
 { #category : #tests }
+TestBasicLinkedList >> testAtPutLinkIsOk [
+	| list node1 node2 node3 |
+	
+	node1 := Node new.
+	node1 value: 2.
+	
+	node2 := Node new.
+	node2 value: 4.
+	
+	node3 := Node new.
+	node3 value: 6.
+	
+	list := BasicLinkedList new.
+	list addLast: node1.
+	list addLast: node2.
+	list at: 2 putLink: node3.
+	
+	self assert: (list asArray) size equals: 3.
+	self assert: (list last) value equals: 6
+]
+
+{ #category : #tests }
 TestBasicLinkedList >> testRemoveAllIsOk [
 	| list node1 node2 node3 |
 	
@@ -146,7 +168,7 @@ TestBasicLinkedList >> testRemoveAllIsOk [
 	
 	list removeAll.
 	
-	self assert: (list asArray) size equals: 0
+	self assert: list size equals: 0
 	
 
 ]
@@ -196,8 +218,31 @@ TestBasicLinkedList >> testRemoveLastIsOk [
 	
 	list removeLast.
 	
-	self assert: (list last) value equals: 4.
-	self assert: (list asArray) size equals: 2
+	self assert: (list asArray) size equals: 2.
+	self assert: (list last) value equals: 4
+	
+
+]
+
+{ #category : #tests }
+TestBasicLinkedList >> testSizeIsOk [
+	| list node1 node2 node3 |
+	
+	node1 := Node new.
+	node1 value: 2.
+	
+	node2 := Node new.
+	node2 value: 4.
+	
+	node3 := Node new.
+	node3 value: 6.
+	
+	list := BasicLinkedList new.
+	list add: node1.
+	list add: node2.
+	list add: node3.
+	
+	self assert: list size equals: 3
 	
 
 ]

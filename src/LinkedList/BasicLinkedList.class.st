@@ -45,7 +45,7 @@ BasicLinkedList >> add: aNode beforeLink: otherNode [
 	| node |
 	head == otherNode ifTrue: [ ^ self addFirst: aNode ].
 	node := head.
-	[ node isNil ] whileFalse: [ [ node nextLink == otherNode ] ifTrue: [ 
+	[ node isNil ] whileFalse: [  node nextLink == otherNode  ifTrue: [ 
 												aNode nextLink: node nextLink.
 												node nextLink: aNode.
 												^ aNode
@@ -83,6 +83,34 @@ BasicLinkedList >> asArray [
 										 ].
 	
 	^ array
+]
+
+{ #category : #accessing }
+BasicLinkedList >> at: index putLink: aNode [ 
+	
+	| i node listSize|
+	
+	i := 1.
+	listSize := (self size) + 1.
+	node := head.
+	
+	head == tail
+		ifTrue: [ ^ self addLast: aNode ]
+		ifFalse: [ 
+						index == listSize
+							ifTrue: [ ^ self addLast: aNode ]
+							ifFalse: [ 
+									[ i == index  ]
+										whileFalse: [ 
+											i := i + 1.
+											node := node nextLink
+						 				].
+					
+									^ self add: aNode beforeLink: node.
+			 				].
+								 ]
+						
+				
 ]
 
 { #category : #accessing }
@@ -127,4 +155,22 @@ BasicLinkedList >> removeLast [
 						node nextLink: nil
 					].
 	^ self.
+]
+
+{ #category : #accessing }
+BasicLinkedList >> size [ 
+	
+	| index node |
+	index := 1.
+	
+	node := head.
+	
+	[ node == tail ]
+		whileFalse: [ 
+				index := index + 1.
+				node := node nextLink.
+			 ].
+	^ index
+	
+	
 ]
